@@ -9,7 +9,10 @@ ARG MB_EDITION=oss
 
 ENV VERSION=$VERSION
 ENV MB_EDITION=$MB_EDITION
+
 WORKDIR /home/node
+
+COPY . .
 RUN INTERACTIVE=false CI=true MB_EDITION=$MB_EDITION bin/build.sh :version $VERSION
 
 RUN apt-get update && apt-get upgrade -y && apt-get install wget apt-transport-https gpg curl git -y \
@@ -20,8 +23,6 @@ RUN apt-get update && apt-get upgrade -y && apt-get install wget apt-transport-h
     && curl -O https://download.clojure.org/install/linux-install-1.12.0.1488.sh \
     && chmod +x linux-install-1.12.0.1488.sh \
     && ./linux-install-1.12.0.1488.sh
-
-COPY . .
 
 # version is pulled from git, but git doesn't trust the directory due to different owners
 RUN git config --global --add safe.directory /home/node
