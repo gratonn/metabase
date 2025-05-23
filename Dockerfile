@@ -9,10 +9,8 @@ ARG MB_EDITION=oss
 
 ENV VERSION=$VERSION
 ENV MB_EDITION=$MB_EDITION
-
-RUN INTERACTIVE=false CI=true MB_EDITION=$MB_EDITION bin/build.sh :version $VERSION
-
 WORKDIR /home/node
+RUN INTERACTIVE=false CI=true MB_EDITION=$MB_EDITION bin/build.sh :version $VERSION
 
 RUN apt-get update && apt-get upgrade -y && apt-get install wget apt-transport-https gpg curl git -y \
     && wget -qO - https://packages.adoptium.net/artifactory/api/gpg/key/public | gpg --dearmor | tee /etc/apt/trusted.gpg.d/adoptium.gpg > /dev/null \
