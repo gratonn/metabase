@@ -7,6 +7,11 @@ FROM node:22-bullseye as builder
 ARG VERSION=0.47.5
 ARG MB_EDITION=oss
 
+ENV VERSION=$VERSION
+ENV MB_EDITION=$MB_EDITION
+
+RUN INTERACTIVE=false CI=true MB_EDITION=$MB_EDITION bin/build.sh :version $VERSION
+
 WORKDIR /home/node
 
 RUN apt-get update && apt-get upgrade -y && apt-get install wget apt-transport-https gpg curl git -y \
